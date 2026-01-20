@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Ti ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .section {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: fadeInDown 1.5s ease;
+        }
+
+        .hero p {
+            font-size: 1.5em;
+            animation: fadeInUp 1.5s ease;
+            animation-delay: 0.5s;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5em;
+            }
+
+            .hero p {
+                font-size: 1.2em;
+            }
+
+            .content-box {
+                padding: 30px 20px;
+            }
+
+            .content-box h2 {
+                font-size: 2em;
+            }
+
+            .content-box p {
+                font-size: 1em;
+            }
+
+            .photo-slide img {
+                height: 400px;
+            }
+
+            .photo-caption h3 {
+                font-size: 1.4em;
+            }
+
+            .photo-caption p {
+                font-size: 1em;
+            }
+
+            .final-message {
+                font-size: 1.5em;
+            }
+
+            .audio-btn {
+                padding: 12px 30px;
+                font-size: 1em;
+            }
+
+            .gallery-btn {
+                padding: 10px 20px;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+
+            .hero p {
+                font-size: 1em;
+            }
+
+            .content-box h2 {
+                font-size: 1.5em;
+            }
+
+            .photo-slide img {
+                height: 300px;
+            }
+
+            .photo-caption {
+                padding: 20px;
+            }
+
+            .photo-caption h3 {
+                font-size: 1.2em;
+            }
+
+            .photo-caption p {
+                font-size: 0.9em;
+            }
+
+            .section {
+                padding: 30px 15px;
+            }
+
+            .gallery-btn {
+                padding: 8px 15px;
+                font-size: 0.9em;
+            }
+        }
+
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 2em;
+            animation: float 6s infinite;
+            opacity: 0.6;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            50% {
+                opacity: 0.6;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .content-box {
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .content-box h2 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .content-box p {
+            font-size: 1.2em;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .audio-player {
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .audio-btn {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            color: white;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .audio-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .photo-gallery {
+            max-width: 800px;
+            margin: 30px auto;
+            position: relative;
+        }
+
+        .photo-slide {
+            display: none;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .photo-slide.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .photo-slide img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+        }
+
+        .photo-caption {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, transparent 100%);
+            padding: 30px;
+            color: white;
+        }
+
+        .photo-caption h3 {
+            font-size: 1.8em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .photo-caption p {
+            font-size: 1.1em;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+            text-align: left;
+        }
+
+        .gallery-controls {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .gallery-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 10px 30px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .gallery-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .slide-counter {
+            margin-top: 15px;
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        /* Sección de 50 razones */
+        .reasons-container {
+            max-width: 900px;
+            margin: 30px auto;
+        }
+
+        .reasons-display {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 60px 40px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .reason-number {
+            font-size: 1.2em;
+            opacity: 0.8;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .reason-text {
+            font-size: 2em;
+            text-align: center;
+            line-height: 1.5;
+            animation: fadeInScale 0.5s ease;
+            padding: 0 20px;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .reasons-controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .reason-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 12px 35px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        .reason-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .reason-btn:active {
+            transform: translateY(0);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .hearts-decoration {
+            position: absolute;
+            font-size: 3em;
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        .hearts-decoration.left {
+            left: 20px;
+            top: 20px;
+        }
+
+        .hearts-decoration.right {
+            right: 20px;
+            bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .reasons-display {
+                padding: 40px 25px;
+                min-height: 250px;
+            }
+
+            .reason-text {
+                font-size: 1.5em;
+            }
+
+            .reason-btn {
+                padding: 10px 25px;
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .reasons-display {
+                padding: 30px 20px;
+                min-height: 220px;
+            }
+
+            .reason-text {
+                font-size: 1.3em;
+            }
+
+            .reason-number {
+                font-size: 1em;
+            }
+
+            .reason-btn {
+                padding: 10px 20px;
+                font-size: 0.95em;
+            }
+        }
+
+        .final-section {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+            text-align: center;
+        }
+
+        .final-message {
+            font-size: 2em;
+            margin: 30px 0;
+            font-style: italic;
+        }
+
+        .scroll-hint {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            40% {
+                transform: translateX(-50%) translateY(-20px);
+            }
+            60% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        .audio-instruction {
+            font-size: 0.9em;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sección Hero -->
+    <section class="section hero">
+        <div class="hearts" id="heartsContainer"></div>
+        <div>
+            <h1>Para Ti, Mi Amor ❤️</h1>
+            <p>Un espacio especial creado con todo mi corazón</p>
+            <div class="scroll-hint">
+                <p>↓ Desliza hacia abajo ↓</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Carta -->
+    <section class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div class="content-box">
+            <h2>Una Carta Para Ti</h2>
+            <p>
+                Desde el primer momento en que te vi, supe que había algo especial en ti. Tu sonrisa ilumina mis días más oscuros, y tu voz es la melodía más hermosa que he escuchado.
+            </p>
+            <p>
+                Cada momento a tu lado es un regalo que atesoro en mi corazón. Has transformado mi mundo de maneras que nunca imaginé posibles, llenándolo de color, alegría y amor verdadero.
+            </p>
+            <div class="audio-player">
+                <button class="audio-btn" onclick="playAudio(1)">🎵 Escuchar mi mensaje</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Razones -->
+    <section class="section" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);">
+        <div class="content-box">
+            <h2>Por Qué Te Amo</h2>
+            <p>
+                Te amo por tu sonrisa que ilumina hasta mis días más oscuros, por esa risa contagiosa que me hace olvidar cualquier problema. Amo la forma en que me miras, como si fuera lo más importante en tu mundo, y cómo tus abrazos tienen el poder de hacerme sentir en casa sin importar dónde estemos.
+            </p>
+            <p>
+                Amo tu esencia única, esa forma especial de ser que nadie más podría replicar. Tu corazón tan noble y generoso, la manera en que te preocupas por los demás y cómo siempre encuentras el lado positivo de las cosas. Cada pequeño gesto tuyo me enamora más.
+            </p>
+            <p>
+                Te amo por cómo eres exactamente tú misma, sin pretensiones. Por tus sueños, tus miedos, tus virtudes y hasta tus defectos que te hacen perfecta a mis ojos. Amo compartir mi vida contigo y despertar cada día sabiendo que eres mía y yo soy tuyo.
+            </p>
+            <div class="audio-player">
+                <button class="audio-btn" onclick="playAudio(1)">🎵 Continuar escuchando</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Galería -->
+    <section class="section" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);">
+        <div class="content-box">
+            <h2>Momentos Donde Te Ves Divina ✨</h2>
+            <p style="text-align: center;">Cada imagen captura tu belleza única</p>
+            
+            <div class="photo-gallery">
+                <!-- Foto 1 -->
+                <div class="photo-slide active" data-slide="1">
+                    <div class="photo-caption">
+                        <h3>✨ Absolutamente Radiante</h3>
+                        <p>En esta foto te ves espectacular, tu belleza natural brilla de una manera increíble</p>
+                    </div>
+                    <img src="foto1.jpeg" alt="Momento especial">
+                </div>
+
+                <!-- Foto 2 -->
+                <div class="photo-slide" data-slide="2">
+                    <div class="photo-caption">
+                        <h3>💫 Simplemente Perfecta</h3>
+                        <p>Aquí capturo tu esencia pura, esa sonrisa que me enamora cada día más</p>
+                    </div>
+                    <img src="foto2.jpeg" alt="Momento especial">
+                </div>
+
+                <!-- Foto 3 -->
+                <div class="photo-slide" data-slide="3">
+                    <div class="photo-caption">
+                        <h3>🌟 Hermosa Sin Esfuerzo</h3>
+                        <p>Tu belleza natural no necesita filtros, así de increíble te ves siempre</p>
+                    </div>
+                    <img src="foto3.jpeg" alt="Momento especial">
+                </div>
+
+                <!-- Foto 4 -->
+                <div class="photo-slide" data-slide="4">
+                    <div class="photo-caption">
+                        <h3>💖 Deslumbrante</h3>
+                        <p>Esta es una de mis favoritas, te ves tan radiante y feliz</p>
+                    </div>
+                    <img src="foto4.jpeg" alt="Momento especial">
+                </div>
+
+                <!-- Foto 5 -->
+                <div class="photo-slide" data-slide="5">
+                    <div class="photo-caption">
+                        <h3>✨ Elegancia Pura</h3>
+                        <p>La definición de belleza está en esta foto, simplemente impresionante</p>
+                    </div>
+                    <img src="foto5.jpeg" alt="Momento especial">
+                </div>
+
+                <!-- Foto 6 -->
+                <div class="photo-slide" data-slide="6">
+                    <div class="photo-caption">
+                        <h3>🌹 Perfecta Como Siempre</h3>
+                        <p>Cada ángulo tuyo es perfecto, aquí se nota lo especial que eres</p>
+                    </div>
+                    <img src="foto6.jpeg" alt="Momento especial">
+                </div>
+            </div>
+
+            <div class="gallery-controls">
+                <button class="gallery-btn" onclick="previousSlide()">← Anterior</button>
+                <button class="gallery-btn" onclick="nextSlide()">Siguiente →</button>
+                <div class="slide-counter">Foto <span id="currentSlide">1</span> de 6</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de 50 Razones -->
+    <section class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <div class="content-box">
+            <h2>50 Cosas Que Me Gustan De Ti 💕</h2>
+            <p style="text-align: center;">Cada una de estas razones hace que te ame más cada día</p>
+            
+            <div class="reasons-container">
+                <div class="reasons-display">
+                    <div class="hearts-decoration left">💕</div>
+                    <div class="hearts-decoration right">💕</div>
+                    <div class="reason-number" id="reasonNumber">Razón 1 de 50</div>
+                    <div class="reason-text" id="reasonText">Tu sonrisa ilumina todo mi mundo</div>
+                </div>
+
+                <div class="reasons-controls">
+                    <button class="reason-btn" onclick="previousReason()">← Anterior</button>
+                    <button class="reason-btn" onclick="randomReason()">🎲 Aleatorio</button>
+                    <button class="reason-btn" onclick="nextReason()">Siguiente →</button>
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 2%"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Final -->
+    <section class="section final-section">
+        <div>
+            <h2 style="font-size: 3em;">Te Amo ❤️</h2>
+            <p class="final-message">
+                "Hoy, mañana y siempre serás la persona que elegí amar con todo mi corazón"
+            </p>
+            <div class="audio-player">
+                <button class="audio-btn" onclick="playAudio(4)">🎵 Un último mensaje para ti</button>
+            </div>
+            <div class="audio-player">
+                <button class="audio-btn" onclick="openUniversePage()" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">✨ Abrir</button>
+            </div>
+            <p style="margin-top: 40px; font-size: 1.3em;">
+                Feliz San Valentín 2025 💕
+            </p>
+        </div>
+    </section>
+
+    <script>
+        // Crear corazones flotantes
+        function createHearts() {
+            const container = document.getElementById('heartsContainer');
+            for (let i = 0; i < 15; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart');
+                heart.textContent = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 6 + 's';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        // Variables para controlar los audios
+        let currentAudio = null;
+        let audioButtons = {};
+
+        // Función para los botones de audio
+        function playAudio(audioNumber) {
+            const button = event.target;
+            
+            // Si hay un audio reproduciéndose del mismo botón, lo pausamos/reanudamos
+            if (currentAudio && audioButtons[audioNumber] === currentAudio) {
+                if (currentAudio.paused) {
+                    currentAudio.play();
+                    button.textContent = button.textContent.replace('▶️', '⏸️');
+                } else {
+                    currentAudio.pause();
+                    button.textContent = button.textContent.replace('⏸️', '▶️');
+                }
+                return;
+            }
+            
+            // Si hay otro audio reproduciéndose, lo detenemos
+            if (currentAudio) {
+                currentAudio.pause();
+                currentAudio.currentTime = 0;
+                // Restaurar el texto del botón anterior
+                document.querySelectorAll('.audio-btn').forEach(btn => {
+                    if (btn.textContent.includes('⏸️')) {
+                        btn.textContent = btn.textContent.replace('⏸️', '🎵');
+                    }
+                });
+            }
+
+            // Crear nuevo audio según el número
+            let audioSrc = '';
+            switch(audioNumber) {
+                case 1:
+                    audioSrc = 'audio1.mp3';
+                    break;
+                case 4:
+                    audioSrc = 'audio4.mp3';
+                    break;
+            }
+
+            // Crear y reproducir el audio
+            currentAudio = new Audio(audioSrc);
+            audioButtons[audioNumber] = currentAudio;
+            
+            // Cambiar icono a pausa cuando está reproduciendo
+            button.textContent = button.textContent.replace('🎵', '⏸️');
+            
+            currentAudio.play().catch(error => {
+                alert('No se pudo reproducir el audio. Asegúrate de que el archivo ' + audioSrc + ' existe en la misma carpeta.');
+                console.error('Error al reproducir:', error);
+                button.textContent = button.textContent.replace('⏸️', '🎵');
+            });
+
+            // Cuando termine el audio, restaurar el icono
+            currentAudio.onended = () => {
+                button.textContent = button.textContent.replace('⏸️', '🎵');
+            };
+        }
+
+        // Control de galería de fotos
+        let currentSlideIndex = 1;
+        const totalSlides = 6;
+        let galleryAudio = null;
+        let galleryAudioStarted = false;
+
+        function showSlide(n) {
+            const slides = document.querySelectorAll('.photo-slide');
+            
+            if (n > totalSlides) {
+                currentSlideIndex = 1;
+            }
+            if (n < 1) {
+                currentSlideIndex = totalSlides;
+            }
+
+            slides.forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            slides[currentSlideIndex - 1].classList.add('active');
+            document.getElementById('currentSlide').textContent = currentSlideIndex;
+
+            // Reproducir audio3.mp3 cuando pase de la primera foto (slide 2+)
+            if (currentSlideIndex === 2 && !galleryAudioStarted) {
+                galleryAudioStarted = true;
+                
+                // Detener cualquier otro audio
+                if (currentAudio) {
+                    currentAudio.pause();
+                    currentAudio.currentTime = 0;
+                }
+                
+                // Reproducir audio de la galería
+                galleryAudio = new Audio('audio33.mp4');
+                galleryAudio.play().catch(error => {
+                    console.error('Error al reproducir audio de galería:', error);
+                });
+            }
+
+            // Detener música si vuelve a la primera foto
+            if (currentSlideIndex === 1 && galleryAudio) {
+                galleryAudio.pause();
+                galleryAudio.currentTime = 0;
+                galleryAudioStarted = false;
+                galleryAudio = null;
+            }
+        }
+
+        function nextSlide() {
+            currentSlideIndex++;
+            showSlide(currentSlideIndex);
+        }
+
+        function previousSlide() {
+            currentSlideIndex--;
+            showSlide(currentSlideIndex);
+        }
+
+        // Control de 50 razones
+        let currentReasonIndex = 0;
+        const reasons = [
+            "Tu sonrisa ilumina todo mi mundo",
+            "La forma en que me miras",
+            "Tu risa contagiosa que alegra mis días",
+            "Cómo me abrazas cuando más lo necesito",
+            "Tu manera única de ser tú misma",
+            "Los pequeños detalles que tienes conmigo",
+            "Tu voz",
+            "Tus ojos",
+            "La pasión que pones en todo lo que haces",
+            "Tu forma de caminar con tanta seguridad",
+            "Cómo te preocupas por mí",
+            "Tu cabello que siempre se ve perfecto",
+            "La manera en que dices mi nombre",
+            "Tus ojos que brillan con intensidad",
+            "Tu sentido del humor tan especial",
+            "Cómo me haces sentir amado cada día",
+            "Tu inteligencia que me fascina",
+            "Tu bondad y generosidad infinita",
+            "Cómo me apoyas",
+            "Tu estilo único al vestir",
+            "La forma en que puedo hablar contigo",
+            "Tu paciencia conmigo siempre",
+            "Cómo me inspiras a ser mejor",
+            "Tu fuerza en momentos difíciles",
+            "Tu forma de hacerme sentir seguro",
+            "Tu creatividad que no tiene límites",
+            "Cómo me comprendes sin palabras",
+            "Tu cara cuando estás dormida",
+            "La manera en que me tomas la mano",
+            "Tu amor por las cosas simples",
+            "Cómo me haces reír",
+            "Tu honestidad y transparencia",
+            "La forma en que cuidas de mí",
+            "Tu determinación para lograr tus metas",
+            "Cómo me escuchas de verdad",
+            "Tu capacidad de perdonar",
+            "La manera en que expresas tu amor",
+            "Tu entusiasmo por la vida",
+            "Cómo haces que todo sea especial",
+            "Tu corazón tan noble y puro",
+            "La forma en que me sorprendes",
+            "Tu valentía al enfrentar desafíos",
+            "Cómo iluminas cualquier lugar",
+            "Tu espontaneidad que amo tanto",
+            "La manera en que me haces sentir único",
+            "Tu dulzura en cada gesto",
+            "Cómo compartes tus sueños conmigo",
+            "Tu belleza interior y exterior",
+            "Tus besos",
+            "La forma en que me amas incondicionalmente",
+            "Simplemente todo de ti, porque eres perfecta para mí"
+        ];
+
+        function updateReason() {
+            const reasonText = document.getElementById('reasonText');
+            const reasonNumber = document.getElementById('reasonNumber');
+            const progressFill = document.getElementById('progressFill');
+
+            // Animación de salida
+            reasonText.style.opacity = '0';
+            reasonText.style.transform = 'scale(0.9)';
+
+            setTimeout(() => {
+                reasonText.textContent = reasons[currentReasonIndex];
+                reasonNumber.textContent = `Razón ${currentReasonIndex + 1} de 50`;
+                
+                const progress = ((currentReasonIndex + 1) / 50) * 100;
+                progressFill.style.width = progress + '%';
+
+                // Animación de entrada
+                reasonText.style.opacity = '1';
+                reasonText.style.transform = 'scale(1)';
+            }, 200);
+        }
+
+        function nextReason() {
+            currentReasonIndex = (currentReasonIndex + 1) % 50;
+            updateReason();
+        }
+
+        function previousReason() {
+            currentReasonIndex = (currentReasonIndex - 1 + 50) % 50;
+            updateReason();
+        }
+
+        function randomReason() {
+            const newIndex = Math.floor(Math.random() * 50);
+            currentReasonIndex = newIndex;
+            updateReason();
+        }
+
+        // Función para abrir la página del universo
+        function openUniversePage() {
+            window.open('universo.html', '_blank');
+        }
+
+        // Inicializar efectos
+        createHearts();
+
+        // Animación al hacer scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.section');
+            sections.forEach(section => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.75) {
+                    section.style.opacity = '1';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
