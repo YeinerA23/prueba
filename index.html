@@ -272,7 +272,7 @@
             top: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, transparent 100%);
+            background: linear-gradient(180deg, rgba(0,0,0,0.3) 0%, transparent 100%);
             padding: 30px;
             color: white;
         }
@@ -321,208 +321,134 @@
         .reasons-container {
             max-width: 900px;
             margin: 30px auto;
-            position: relative;
-            min-height: 500px;
         }
 
-        .heart-button {
-            width: 250px;
-            height: 250px;
-            margin: 50px auto;
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            filter: drop-shadow(0 10px 40px rgba(255, 105, 180, 0.6));
-        }
-
-        .heart-button:hover {
-            transform: scale(1.1);
-        }
-
-        .heart-button:active {
-            transform: scale(0.95);
-        }
-
-        .heart-shape {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            animation: heartbeat 1.5s infinite;
-        }
-
-        @keyframes heartbeat {
-            0%, 100% {
-                transform: scale(1);
-            }
-            10%, 30% {
-                transform: scale(1.1);
-            }
-            20%, 40% {
-                transform: scale(1);
-            }
-        }
-
-        .heart-svg {
-            width: 100%;
-            height: 100%;
-            fill: url(#heartGradient);
-            filter: drop-shadow(0 0 20px rgba(255, 105, 180, 0.8));
-        }
-
-        .heart-text {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 1.4em;
-            font-weight: bold;
-            text-align: center;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-            pointer-events: none;
-        }
-
-        .floating-reason {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, rgba(240, 147, 251, 0.95) 0%, rgba(245, 87, 108, 0.95) 100%);
-            color: white;
-            padding: 40px 50px;
-            border-radius: 30px;
-            font-size: 2.2em;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-            opacity: 0;
-            pointer-events: none;
+        .reasons-display {
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(10px);
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            max-width: 90%;
-            z-index: 1000;
+            border-radius: 20px;
+            padding: 60px 40px;
+            min-height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
         }
 
-        .floating-reason.show {
-            animation: floatAndFade 4s ease-out forwards;
+        .reason-number {
+            font-size: 1.2em;
+            opacity: 0.8;
+            margin-bottom: 10px;
+            font-weight: bold;
         }
 
-        @keyframes floatAndFade {
-            0% {
-                opacity: 0;
-                transform: translate(-50%, -50%) scale(0.3) rotateZ(-10deg);
-            }
-            15% {
-                opacity: 1;
-                transform: translate(-50%, -50%) scale(1.05) rotateZ(2deg);
-            }
-            25% {
-                transform: translate(-50%, -50%) scale(1) rotateZ(0deg);
-            }
-            75% {
-                opacity: 1;
-                transform: translate(-50%, -60%) scale(1) rotateZ(0deg);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(-50%, -80%) scale(0.8) rotateZ(5deg);
-            }
-        }
-
-        .sparkle {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: white;
-            border-radius: 50%;
-            pointer-events: none;
-            opacity: 0;
-        }
-
-        .sparkle.animate {
-            animation: sparkleAnimation 1s ease-out forwards;
-        }
-
-        @keyframes sparkleAnimation {
-            0% {
-                opacity: 1;
-                transform: translate(0, 0) scale(0);
-            }
-            50% {
-                opacity: 1;
-                transform: translate(var(--tx), var(--ty)) scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: translate(calc(var(--tx) * 2), calc(var(--ty) * 2)) scale(0);
-            }
-        }
-
-        .counter-display {
+        .reason-text {
+            font-size: 2em;
             text-align: center;
-            margin-top: 30px;
-            font-size: 1.3em;
-            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.5;
+            padding: 0 20px;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
 
-        .mini-hearts {
+        .reasons-controls {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .reason-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            padding: 12px 35px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Georgia', serif;
+        }
+
+        .reason-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .reason-btn:active {
+            transform: translateY(0);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            margin-top: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .hearts-decoration {
             position: absolute;
-            font-size: 1.5em;
-            opacity: 0;
+            font-size: 3em;
+            opacity: 0.1;
             pointer-events: none;
         }
 
-        .mini-hearts.float {
-            animation: miniHeartFloat 2s ease-out forwards;
+        .hearts-decoration.left {
+            left: 20px;
+            top: 20px;
         }
 
-        @keyframes miniHeartFloat {
-            0% {
-                opacity: 1;
-                transform: translateY(0) scale(1) rotate(0deg);
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-150px) scale(0.3) rotate(360deg);
-            }
+        .hearts-decoration.right {
+            right: 20px;
+            bottom: 20px;
         }
 
         @media (max-width: 768px) {
-            .heart-button {
-                width: 200px;
-                height: 200px;
+            .reasons-display {
+                padding: 40px 25px;
+                min-height: 250px;
             }
 
-            .heart-text {
-                font-size: 1.2em;
+            .reason-text {
+                font-size: 1.5em;
             }
 
-            .floating-reason {
-                padding: 30px 35px;
-                font-size: 1.6em;
-            }
-
-            .counter-display {
-                font-size: 1.1em;
+            .reason-btn {
+                padding: 10px 25px;
+                font-size: 1em;
             }
         }
 
         @media (max-width: 480px) {
-            .heart-button {
-                width: 160px;
-                height: 160px;
+            .reasons-display {
+                padding: 30px 20px;
+                min-height: 220px;
             }
 
-            .heart-text {
-                font-size: 1em;
-            }
-
-            .floating-reason {
-                padding: 25px 30px;
+            .reason-text {
                 font-size: 1.3em;
             }
 
-            .reasons-container {
-                min-height: 400px;
+            .reason-number {
+                font-size: 1em;
+            }
+
+            .reason-btn {
+                padding: 10px 20px;
+                font-size: 0.95em;
             }
         }
 
@@ -686,28 +612,24 @@
     <section class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
         <div class="content-box">
             <h2>50 Cosas Que Me Gustan De Ti 💕</h2>
-            <p style="text-align: center;">Presiona el corazón para descubrir cada razón</p>
+            <p style="text-align: center;">Cada una de estas razones hace que te ame más cada día</p>
             
-            <div class="reasons-container" id="reasonsContainer">
-                <div class="heart-button" id="heartButton" onclick="showReason()">
-                    <div class="heart-shape">
-                        <svg class="heart-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
-                                </linearGradient>
-                            </defs>
-                            <path d="M50,90 C50,90 10,60 10,40 C10,25 20,15 30,15 C40,15 45,20 50,30 C55,20 60,15 70,15 C80,15 90,25 90,40 C90,60 50,90 50,90 Z" />
-                        </svg>
-                    </div>
-                    <div class="heart-text">Tócame ❤️</div>
+            <div class="reasons-container">
+                <div class="reasons-display">
+                    <div class="hearts-decoration left">💕</div>
+                    <div class="hearts-decoration right">💕</div>
+                    <div class="reason-number" id="reasonNumber">Razón 1 de 50</div>
+                    <div class="reason-text" id="reasonText">Tu sonrisa ilumina todo mi mundo</div>
                 </div>
 
-                <div class="floating-reason" id="floatingReason"></div>
+                <div class="reasons-controls">
+                    <button class="reason-btn" onclick="previousReason()">← Anterior</button>
+                    <button class="reason-btn" onclick="randomReason()">🎲 Aleatorio</button>
+                    <button class="reason-btn" onclick="nextReason()">Siguiente →</button>
+                </div>
 
-                <div class="counter-display">
-                    <span id="reasonCounter">Razones descubiertas: 0 / 50</span>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 2%"></div>
                 </div>
             </div>
         </div>
@@ -840,7 +762,7 @@
                 }
                 
                 // Reproducir audio de la galería
-                galleryAudio = new Audio('audio3.mp3');
+                galleryAudio = new Audio('audio33.mp4');
                 galleryAudio.play().catch(error => {
                     console.error('Error al reproducir audio de galería:', error);
                 });
@@ -867,7 +789,6 @@
 
         // Control de 50 razones
         let currentReasonIndex = 0;
-        let discoveredReasons = new Set();
         const reasons = [
             "Tu sonrisa ilumina todo mi mundo",
             "La forma en que me miras",
@@ -922,114 +843,42 @@
             "Simplemente todo de ti, porque eres perfecta para mí"
         ];
 
-        function showReason() {
-            const floatingReason = document.getElementById('floatingReason');
-            const heartButton = document.getElementById('heartButton');
-            const container = document.getElementById('reasonsContainer');
-            const counter = document.getElementById('reasonCounter');
-
-            // Obtener razón actual
-            const reason = reasons[currentReasonIndex];
-            discoveredReasons.add(currentReasonIndex);
-
-            // Actualizar contador
-            counter.textContent = `Razones descubiertas: ${discoveredReasons.size} / 50`;
-
-            // Mostrar razón flotante
-            floatingReason.textContent = reason;
-            floatingReason.classList.remove('show');
-            void floatingReason.offsetWidth; // Trigger reflow
-            floatingReason.classList.add('show');
-
-            // Crear efecto de brillos/sparkles
-            createSparkles(heartButton);
-
-            // Crear mini corazones flotantes
-            createMiniHearts(container);
-
-            // Avanzar al siguiente índice
-            currentReasonIndex = (currentReasonIndex + 1) % 50;
-
-            // Remover la clase después de la animación
-            setTimeout(() => {
-                floatingReason.classList.remove('show');
-            }, 4000);
-        }
-
-        function createSparkles(element) {
-            const rect = element.getBoundingClientRect();
-            const centerX = rect.left + rect.width / 2;
-            const centerY = rect.top + rect.height / 2;
-
-            for (let i = 0; i < 15; i++) {
-                const sparkle = document.createElement('div');
-                sparkle.classList.add('sparkle');
-                
-                const angle = (360 / 15) * i;
-                const distance = 80 + Math.random() * 50;
-                const tx = Math.cos(angle * Math.PI / 180) * distance;
-                const ty = Math.sin(angle * Math.PI / 180) * distance;
-
-                sparkle.style.left = centerX + 'px';
-                sparkle.style.top = centerY + 'px';
-                sparkle.style.setProperty('--tx', tx + 'px');
-                sparkle.style.setProperty('--ty', ty + 'px');
-
-                document.body.appendChild(sparkle);
-
-                setTimeout(() => {
-                    sparkle.classList.add('animate');
-                }, 10);
-
-                setTimeout(() => {
-                    sparkle.remove();
-                }, 1000);
-            }
-        }
-
-        function createMiniHearts(container) {
-            const heartEmojis = ['💕', '💖', '💗', '💓', '💝'];
-            
-            for (let i = 0; i < 8; i++) {
-                const miniHeart = document.createElement('div');
-                miniHeart.classList.add('mini-hearts');
-                miniHeart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
-                
-                const randomX = Math.random() * 80 + 10; // 10% to 90%
-                miniHeart.style.left = randomX + '%';
-                miniHeart.style.top = '50%';
-
-                container.appendChild(miniHeart);
-
-                setTimeout(() => {
-                    miniHeart.classList.add('float');
-                }, i * 100);
-
-                setTimeout(() => {
-                    miniHeart.remove();
-                }, 2000 + i * 100);
-            }
-        }
-
         function updateReason() {
-            // Función antigua - ya no se usa
+            const reasonText = document.getElementById('reasonText');
+            const reasonNumber = document.getElementById('reasonNumber');
+            const progressFill = document.getElementById('progressFill');
+
+            // Animación de salida
+            reasonText.style.opacity = '0';
+            reasonText.style.transform = 'scale(0.9)';
+
+            setTimeout(() => {
+                reasonText.textContent = reasons[currentReasonIndex];
+                reasonNumber.textContent = `Razón ${currentReasonIndex + 1} de 50`;
+                
+                const progress = ((currentReasonIndex + 1) / 50) * 100;
+                progressFill.style.width = progress + '%';
+
+                // Animación de entrada
+                reasonText.style.opacity = '1';
+                reasonText.style.transform = 'scale(1)';
+            }, 200);
         }
 
         function nextReason() {
-            // Función antigua - ya no se usa
+            currentReasonIndex = (currentReasonIndex + 1) % 50;
+            updateReason();
         }
 
         function previousReason() {
-            // Función antigua - ya no se usa
+            currentReasonIndex = (currentReasonIndex - 1 + 50) % 50;
+            updateReason();
         }
 
         function randomReason() {
-            // Función antigua - ya no se usa
-        }
-
-        // Función para abrir la página del universo
-        function openUniversePage() {
-            // Ya no se usa
+            const newIndex = Math.floor(Math.random() * 50);
+            currentReasonIndex = newIndex;
+            updateReason();
         }
 
         // Inicializar efectos
