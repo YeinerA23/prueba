@@ -488,6 +488,11 @@
             margin-top: 10px;
             opacity: 0.8;
         }
+
+        em {
+            font-style: italic;
+            opacity: 0.9;
+        }
     </style>
 </head>
 <body>
@@ -495,7 +500,7 @@
     <section class="section hero">
         <div class="hearts" id="heartsContainer"></div>
         <div>
-            <h1>Para Ti, Mi Amor ❤️</h1>
+            <h1>Para Ti, Noviecita ❤️</h1>
             <p>Un espacio especial creado con todo mi corazón</p>
             <div class="scroll-hint">
                 <p>↓ Desliza hacia abajo ↓</p>
@@ -508,10 +513,8 @@
         <div class="content-box">
             <h2>Una Carta Para Ti</h2>
             <p>
-                Desde el primer momento en que te vi, supe que había algo especial en ti. Tu sonrisa ilumina mis días más oscuros, y tu voz es la melodía más hermosa que he escuchado.
-            </p>
-            <p>
-                Cada momento a tu lado es un regalo que atesoro en mi corazón. Has transformado mi mundo de maneras que nunca imaginé posibles, llenándolo de color, alegría y amor verdadero.
+                Me gustas, pero no de esos gustos que van y vienen; me gustas con calma, con intención y con ganas de quedarme. Me gusta quién eres, no una idea ni un momento, tú tal cual, con lo que eres hoy y con lo que estás construyendo. No te voy a mentir, también tengo miedo: miedo de quedarme con este amor en las manos, de sentir tanto y no saber si alcanza, pero aun así prefiero sentirlo a nunca intentarlo. Me gustas al punto de asumir lo que venga, porque contigo todo se siente más bonito y hasta los días difíciles pesan un poco menos. Cuando estoy contigo solo quiero verte bien, verte sonreír, porque en ese instante ya no sé quién de los dos es más feliz. Quisiera conocerte de verdad, tus miedos, tus gustos, tus metas, todo lo que te hace ser tú. Y sí, me gustas, con ese miedo incluido y con esta ilusión intacta.Te podría decir que no he conocido a alguien como tú, pero mejor te digo: 
+                <em>she was like a shot of espresso, she's like being bathed in sunlight, she's incredibly energetic and enthusiastic, and she had this sense of play and fun which was incredibly exciting.</em>
             </p>
             <div class="audio-player">
                 <button class="audio-btn" onclick="playAudio(1)">🎵 Escuchar mi mensaje</button>
@@ -702,7 +705,7 @@
             let audioSrc = '';
             switch(audioNumber) {
                 case 1:
-                    audioSrc = 'audio1.mp3';
+                    audioSrc = 'Aquel Nap.mp3';
                     break;
                 case 4:
                     audioSrc = 'audio4.mp3';
@@ -712,6 +715,20 @@
             // Crear y reproducir el audio
             currentAudio = new Audio(audioSrc);
             audioButtons[audioNumber] = currentAudio;
+            
+            // Si es el audio 1, empezar en el segundo 203 (3:23) y terminar en 251 (4:11)
+            if (audioNumber === 1) {
+                currentAudio.currentTime = 203;
+                
+                // Detener el audio en el segundo 251 (4:11)
+                currentAudio.addEventListener('timeupdate', function() {
+                    if (currentAudio.currentTime >= 273) {
+                        currentAudio.pause();
+                        currentAudio.currentTime = 203; // Resetear para la próxima vez
+                        button.textContent = button.textContent.replace('⏸️', '🎵');
+                    }
+                });
+            }
             
             // Cambiar icono a pausa cuando está reproduciendo
             button.textContent = button.textContent.replace('🎵', '⏸️');
@@ -762,7 +779,7 @@
                 }
                 
                 // Reproducir audio de la galería
-                galleryAudio = new Audio('audio33.mp4');
+                galleryAudio = new Audio('audio3.mp3');
                 galleryAudio.play().catch(error => {
                     console.error('Error al reproducir audio de galería:', error);
                 });
