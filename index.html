@@ -705,7 +705,7 @@
             let audioSrc = '';
             switch(audioNumber) {
                 case 1:
-                    audioSrc = 'Aquel Nap.mp3';
+                    audioSrc = '48477759f66bd760ca1a67a020655562.mp4';
                     break;
                 case 4:
                     audioSrc = 'audio4.mp3';
@@ -722,9 +722,9 @@
                 
                 // Detener el audio en el segundo 251 (4:11)
                 currentAudio.addEventListener('timeupdate', function() {
-                    if (currentAudio.currentTime >= 273) {
+                    if (currentAudio.currentTime >= 0) {
                         currentAudio.pause();
-                        currentAudio.currentTime = 203; // Resetear para la próxima vez
+                        currentAudio.currentTime = 97; // Resetear para la próxima vez
                         button.textContent = button.textContent.replace('⏸️', '🎵');
                     }
                 });
@@ -914,4 +914,5 @@
     </script>
 </body>
 </html>
+
 
