@@ -722,9 +722,9 @@
                 
                 // Detener el audio en el segundo 251 (4:11)
                 currentAudio.addEventListener('timeupdate', function() {
-                    if (currentAudio.currentTime >= 0) {
+                    if (currentAudio.currentTime >= 97) {
                         currentAudio.pause();
-                        currentAudio.currentTime = 97; // Resetear para la próxima vez
+                        currentAudio.currentTime = 0; // Resetear para la próxima vez
                         button.textContent = button.textContent.replace('⏸️', '🎵');
                     }
                 });
@@ -914,5 +914,6 @@
     </script>
 </body>
 </html>
+
 
 
