@@ -46,6 +46,111 @@
             animation-fill-mode: forwards;
         }
 
+        /* Botón para iniciar audio */
+        .audio-start-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .audio-start-overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .audio-start-btn {
+            position: relative;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            color: white;
+            padding: 20px 50px;
+            font-size: 1.5em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 8px 32px rgba(240, 147, 251, 0.4),
+                inset 0 -3px 10px rgba(0, 0, 0, 0.2),
+                inset 0 3px 10px rgba(255, 255, 255, 0.3);
+            font-family: 'Georgia', serif;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .audio-start-btn::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent 30%,
+                rgba(255, 255, 255, 0.3) 50%,
+                transparent 70%
+            );
+            transform: rotate(45deg);
+            animation: liquidShine 3s infinite;
+        }
+
+        .audio-start-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(
+                circle at 50% 0%,
+                rgba(255, 255, 255, 0.4) 0%,
+                transparent 60%
+            );
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        @keyframes liquidShine {
+            0% {
+                transform: rotate(45deg) translateX(-100%);
+            }
+            100% {
+                transform: rotate(45deg) translateX(100%);
+            }
+        }
+
+        .audio-start-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 15px 50px rgba(240, 147, 251, 0.6),
+                inset 0 -3px 10px rgba(0, 0, 0, 0.3),
+                inset 0 3px 15px rgba(255, 255, 255, 0.4);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .audio-start-btn:active {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 
+                0 8px 25px rgba(240, 147, 251, 0.5),
+                inset 0 -2px 8px rgba(0, 0, 0, 0.2),
+                inset 0 2px 8px rgba(255, 255, 255, 0.3);
+        }
+
+        .audio-start-btn span {
+            position: relative;
+            z-index: 1;
+        }
+
         @media (max-width: 768px) {
             .hero h1 { font-size: 2.5em; }
             .hero p { font-size: 1.2em; }
@@ -56,15 +161,30 @@
             .audio-btn { padding: 12px 30px; font-size: 1em; }
             .gallery-btn { padding: 10px 20px; font-size: 1em; }
             
-            /* Fotos 4:3 sin texto en móviles */
+            /* Botón de inicio más pequeño en móviles */
+            .audio-start-btn {
+                padding: 15px 35px;
+                font-size: 1.2em;
+            }
+            
             .photo-slide img {
                 height: auto;
                 aspect-ratio: 4 / 3;
                 object-fit: cover;
             }
             
+            /* Mostrar captions en móviles */
             .photo-caption {
-                display: none;
+                display: block;
+                padding: 20px;
+            }
+            
+            .photo-caption h3 {
+                font-size: 1.3em;
+            }
+            
+            .photo-caption p {
+                font-size: 0.95em;
             }
         }
 
@@ -75,12 +195,29 @@
             .section { padding: 30px 15px; }
             .gallery-btn { padding: 8px 15px; font-size: 0.9em; }
             
+            /* Botón de inicio aún más pequeño en móviles pequeños */
+            .audio-start-btn {
+                padding: 12px 25px;
+                font-size: 1em;
+            }
+            
             .photo-slide img {
                 aspect-ratio: 4 / 3;
             }
             
+            /* Captions visibles y ajustados */
             .photo-caption {
-                display: none;
+                display: block;
+                padding: 15px;
+            }
+            
+            .photo-caption h3 {
+                font-size: 1.1em;
+                margin-bottom: 5px;
+            }
+            
+            .photo-caption p {
+                font-size: 0.85em;
             }
         }
 
@@ -408,6 +545,13 @@
     </style>
 </head>
 <body>
+    <!-- Overlay para iniciar el audio -->
+    <div class="audio-start-overlay" id="audioStartOverlay">
+        <button class="audio-start-btn" onclick="startExperience()">
+            <span>❤️ Iniciar Experiencia ❤️</span>
+        </button>
+    </div>
+
     <section class="section hero">
         <div class="hearts" id="heartsContainer"></div>
         <div>
@@ -428,7 +572,6 @@
             <p>
                Me gustas, pero no de esos gustos que van y vienen; me gustas con calma, con intención y con ganas de quedarme. Me gusta quién eres, no una idea ni un momento, tú tal cual, con lo que eres hoy y con lo que estás construyendo.
             </p>
-
              <p>
                No te voy a mentir, también tengo miedo: miedo de quedarme con este amor en las manos, de sentir tanto y no saber si alcanza. Pero aun así, prefiero sentirlo a nunca intentarlo. Me gustas al punto de asumir lo que venga, porque contigo todo se siente más bonito y hasta los días difíciles pesan un poco menos.
             </p>
@@ -436,8 +579,6 @@
                Cuando estoy contigo solo quiero verte bien, verte sonreír, porque en ese instante ya no sé quién de los dos es más feliz. Quisiera conocerte de verdad: tus miedos, tus gustos, tus metas, todo lo que te hace ser tú.
                 Y sí, me gustas, con ese miedo incluido y con esta ilusión intacta. Te podría decir que no he conocido a alguien como tú, pero mejor te digo: she was like a shot of espresso, she's like being bathed in sunlight, she's incredibly energetic and enthusiastic, and she had this sense of play and fun which was incredibly exciting.
             </p>
-
-            
         </div>
     </section>
 
@@ -456,8 +597,6 @@
             <p>
                 Y si alguna vez dudas por qué eres tú, quiero que recuerdes esto: no te elegí por costumbre ni por impulso, te elegí porque cuando pienso en el futuro, tu nombre aparece con calma… como si siempre hubiera sido ahí.  
             </p>
-
-
         </div>
     </section>
 
@@ -493,8 +632,7 @@
 
                 <div class="photo-slide" data-slide="4">
                     <div class="photo-caption">
-                        <h3>
-                             Donde nace mi calma</h3>
+                        <h3>Donde nace mi calma</h3>
                         <p>Verte asi me recuerda que la bellezaams binita es la que se siente en el corazón.</p>
                     </div>
                     <img src="foto4.jpeg" alt="Momento especial">
@@ -527,15 +665,15 @@
 
     <section class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
         <div class="content-box">
-            <h2>50 Cosas Que Me Gustan De Ti 💕</h2>
+            <h2>40 Cosas Que Me Gustan De Ti 💕</h2>
             <p style="text-align: center;">Cada una de estas razones hace que te ame más cada día</p>
             
             <div class="reasons-container">
                 <div class="reasons-display">
                     <div class="hearts-decoration left">💕</div>
                     <div class="hearts-decoration right">💕</div>
-                    <div class="reason-number" id="reasonNumber">Razón 1 de 50</div>
-                    <div class="reason-text" id="reasonText">Tu sonrisa ilumina todo mi mundo</div>
+                    <div class="reason-number" id="reasonNumber">Razón 1 de 40</div>
+                    <div class="reason-text" id="reasonText">Tus ojos</div>
                 </div>
 
                 <div class="reasons-controls">
@@ -551,27 +689,22 @@
         </div>
     </section>
 
-<!-- Sección Final -->
-<section class="section final-section">
-    <div>
-        <h2 style="font-size: 3em;">Te Amo ❤️</h2>
-        <p class="final-message">
-            "Hoy, mañana y siempre serás la persona que elegí amar con todo mi corazón"
-        </p>
-        <div class="audio-player">
-            <button class="audio-btn" onclick="playAudio(4)">🎵 Un último mensaje para ti</button>
+    <section class="section final-section">
+        <div>
+            <h2 style="font-size: 3em;">Te Amo ❤️</h2>
+            <p class="final-message">
+                "Hoy, mañana y siempre serás la persona que elegí amar con todo mi corazón"
+            </p>
+            
+            <p style="margin-top: 30px; font-size: 1.3em; font-style: italic; opacity: 0.95; max-width: 600px; margin-left: auto; margin-right: auto;">
+                "Mientras uno está vivo, uno debe amar lo más que pueda."
+            </p>
+            
+            <p style="margin-top: 40px; font-size: 1.3em;">
+                Feliz San Valentín 2026 💕
+            </p>
         </div>
-        
-        <!-- NUEVA CITA AQUÍ -->
-        <p style="margin-top: 30px; font-size: 1.3em; font-style: italic; opacity: 0.95; max-width: 600px; margin-left: auto; margin-right: auto;">
-            "Mientras uno está vivo, uno debe amar lo más que pueda."
-        </p>
-        
-        <p style="margin-top: 40px; font-size: 1.3em;">
-            Feliz San Valentín 2026 💕
-        </p>
-    </div>
-</section>
+    </section>
 
     <script>
         function createHearts() {
@@ -589,6 +722,51 @@
 
         let currentAudio = null;
         let audioButtons = {};
+        let heroAudio = null;
+        let audioStarted = false;
+
+        // CONFIGURACIÓN DEL AUDIO HERO
+        const AUDIO_START_TIME = 227;   // Segundo donde inicia (227 segundos)
+        const AUDIO_END_TIME = 260;     // Segundo donde termina (260 segundos)
+        // Ejemplo: AUDIO_START_TIME = 30 y AUDIO_END_TIME = 90 reproducirá del segundo 30 al 90
+
+        // Función para iniciar la experiencia
+        function startExperience() {
+            const overlay = document.getElementById('audioStartOverlay');
+            overlay.classList.add('hidden');
+            
+            // Crear y reproducir el audio hero
+            heroAudio = new Audio('audio_hero.mp3');
+            heroAudio.loop = false; // Cambiado a false para controlar el loop manualmente
+            heroAudio.volume = 0.7; // Volumen al 70%
+            
+            // Establecer el tiempo de inicio
+            heroAudio.currentTime = AUDIO_START_TIME;
+            
+            // Control de tiempo final
+            if (AUDIO_END_TIME !== null) {
+                heroAudio.addEventListener('timeupdate', function() {
+                    if (heroAudio.currentTime >= AUDIO_END_TIME) {
+                        heroAudio.currentTime = AUDIO_START_TIME; // Volver al inicio configurado
+                        heroAudio.play();
+                    }
+                });
+            } else {
+                // Si no hay tiempo final, hacer loop normal
+                heroAudio.addEventListener('ended', function() {
+                    heroAudio.currentTime = AUDIO_START_TIME;
+                    heroAudio.play();
+                });
+            }
+            
+            heroAudio.play().then(() => {
+                audioStarted = true;
+                console.log('Audio hero iniciado correctamente desde el segundo ' + AUDIO_START_TIME);
+            }).catch(error => {
+                console.error('Error al reproducir audio hero:', error);
+                alert('No se pudo reproducir el audio. Asegúrate de que el archivo audio_hero.mp3 existe.');
+            });
+        }
 
         function playAudio(audioNumber) {
             const button = event.target;
@@ -614,7 +792,7 @@
                 });
             }
 
-            let audioSrc = audioNumber === 1 ? 'Tengo Ganas.mp3' : 'audio4.mp3';
+            let audioSrc = 'Tengo Ganas.mp3';
 
             currentAudio = new Audio(audioSrc);
             audioButtons[audioNumber] = currentAudio;
@@ -630,6 +808,34 @@
             currentAudio.onended = () => {
                 button.textContent = button.textContent.replace('⏸️', '🎵');
             };
+        }
+
+        // Función mejorada para controlar el audio hero según scroll
+        function checkHeroSection() {
+            if (!audioStarted || !heroAudio) return;
+            
+            const heroSection = document.querySelector('.hero');
+            const rect = heroSection.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            
+            // El audio se reproduce si al menos 20% de la sección hero es visible
+            const isVisible = rect.top < windowHeight * 0.8 && rect.bottom > windowHeight * 0.2;
+            
+            if (isVisible) {
+                if (heroAudio.paused) {
+                    // Asegurarse de que comience en el tiempo configurado
+                    if (heroAudio.currentTime < AUDIO_START_TIME || (AUDIO_END_TIME !== null && heroAudio.currentTime >= AUDIO_END_TIME)) {
+                        heroAudio.currentTime = AUDIO_START_TIME;
+                    }
+                    heroAudio.play().catch(error => {
+                        console.error('Error al reanudar audio hero:', error);
+                    });
+                }
+            } else {
+                if (!heroAudio.paused) {
+                    heroAudio.pause();
+                }
+            }
         }
 
         let currentSlideIndex = 1;
@@ -676,59 +882,49 @@
         }
 
         let currentReasonIndex = 0;
-const reasons = [
-   
-    "La forma en que me miras",
-    "Tu olor que me encanta",
-    "Cómo me abrazas cuando más lo necesito",
-    "Tu manera única de ser tú misma",
-    "Los pequeños detalles que tienes conmigo",
-    "Tu voz",
-    "Tus ojos",
-    "La pasión que pones en todo lo que haces",
-    "Tu forma de caminar con tanta seguridad",
-    "Cómo te preocupas por mí",
-    "Tu cabello que siempre se ve perfecto",
-    "La manera en que dices mi nombre",
-    "Tu humor",
-    "Tu figura",
-    "Cómo me haces sentir amado cada día",
-    "Tu inteligencia que me fascina",
-    "Tu bondad y generosidad infinita",
-    "Cómo me apoyas",
-    "Tu estilo único al vestir",
-    "La forma en que puedo hablar contigo",
-    "Tu paciencia conmigo siempre",
-    "Cómo me inspiras a ser mejor",
-    "Tu fuerza en momentos difíciles",
-    "Tu forma de hacerme sentir seguro",
-    "Tu creatividad que no tiene límites",
-    "Cómo me comprendes sin palabras",
-    "Tu cara cuando estás dormida",
-    "La manera en que me tomas la mano",
-    "Tu amor por las cosas simples",
-    "Que aguantas mi humor",
-    "Tu honestidad y transparencia",
-    "La forma en que cuidas de mí",
-    "Tu determinación para lograr tus metas",
-    "Cómo me escuchas de verdad",
-    "Tu resiliencia",
-    "La manera en que expresas tu amor",
-    "Tu entusiasmo por la vida",
-    "Cómo haces que todo sea especial",
-    "Tu corazón tan noble y puro",
-    "La forma en que me sorprendes",
-    "Tu valentía al enfrentar desafíos",
-    "Cómo iluminas cualquier lugar",
-    "Tu espontaneidad que amo tanto",
-    "La manera en que me haces sentir único",
-    "Tu dulzura en cada gesto",
-    "Cómo compartes tus sueños conmigo",
-    "Tu belleza interior y exterior",
-    "Tus besos",
-    "TUS TETAS 😌",
-    "Simplemente todo de ti, porque eres perfecta para mí"
-];
+        const reasons = [
+            "Tus ojos",
+            "Tu voz",
+            "Tu olor",
+            "Tus abrazos",
+            "Tu manera única de ser tú misma",
+            "La forma en que me miras",
+            "La pasión que pones en todo lo que haces",
+            "Tu forma de caminar con tanta seguridad",
+            "Cómo te preocupas por mí",
+            "Tu cabello que siempre se ve perfecto",
+            "La manera en que dices mi nombre",
+            "Tu humor",
+            "Tu cuerpo",
+            "Cómo me haces sentir cada día",
+            "Tu inteligencia que me fascina",
+            "Tu bondad y generosidad infinita",
+            "Tu estilo al vestir",
+            "La forma en que puedo hablar contigo",
+            "Cómo me inspiras a ser mejor",
+            "Tu fuerza en momentos difíciles",
+            "La manera en que me haces sentir único",
+            "Tu creatividad que no tiene límites",
+            "Cómo me comprendes sin palabras",
+            "Tu cara cuando estás dormida",
+            "La manera en que me tomas la mano",
+            "Tu amor por las cosas simples",
+            "Que aguantas mi humor",
+            "Tu honestidad y transparencia",
+            "Tu cara enojada",
+            "Tu determinación para lograr tus metas",
+            "Cómo me escuchas de verdad",
+            "Tu resiliencia",
+            "Tus besos",
+            "TUS TETAS 😌",
+            "Simplemente todo de ti, porque eres perfecta para mí",
+            "Cómo haces que todo sea especial",
+            "Cómo iluminas cualquier lugar",
+            "Cómo compartes tus sueños conmigo",
+            "Que eres mi sueño hecho realidad",
+            "Que me haces querer ser mejor persona"
+        ];
+
         function updateReason() {
             const reasonText = document.getElementById('reasonText');
             const reasonNumber = document.getElementById('reasonNumber');
@@ -739,31 +935,35 @@ const reasons = [
 
             setTimeout(() => {
                 reasonText.textContent = reasons[currentReasonIndex];
-                reasonNumber.textContent = `Razón ${currentReasonIndex + 1} de 50`;
-                progressFill.style.width = ((currentReasonIndex + 1) / 50) * 100 + '%';
+                reasonNumber.textContent = `Razón ${currentReasonIndex + 1} de 40`;
+                progressFill.style.width = ((currentReasonIndex + 1) / 40) * 100 + '%';
                 reasonText.style.opacity = '1';
                 reasonText.style.transform = 'scale(1)';
             }, 200);
         }
 
         function nextReason() {
-            currentReasonIndex = (currentReasonIndex + 1) % 50;
+            currentReasonIndex = (currentReasonIndex + 1) % 40;
             updateReason();
         }
 
         function previousReason() {
-            currentReasonIndex = (currentReasonIndex - 1 + 50) % 50;
+            currentReasonIndex = (currentReasonIndex - 1 + 40) % 40;
             updateReason();
         }
 
         function randomReason() {
-            currentReasonIndex = Math.floor(Math.random() * 50);
+            currentReasonIndex = Math.floor(Math.random() * 40);
             updateReason();
         }
 
+        // Inicializar
         createHearts();
 
+        // Event listener para el scroll
         window.addEventListener('scroll', () => {
+            checkHeroSection();
+            
             document.querySelectorAll('.section').forEach(section => {
                 if (section.getBoundingClientRect().top < window.innerHeight * 0.75) {
                     section.style.opacity = '1';
